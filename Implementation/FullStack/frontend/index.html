@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TA-GAT Studio | Influential Node Detection Platform</title>
+
+  <!-- Google Fonts: Outfit (Headings), Inter (Body), JetBrains Mono (Code/Metrics) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Frameworks & Core Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+
+  <!-- Custom Modular Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Top Enterprise Navbar -->
+  <header class="app-navbar">
+    <div class="container-fluid px-lg-5">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <div class="brand-logo-badge">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div>
+            <div class="brand-title h5 mb-0 fw-bold d-flex align-items-center gap-2">
+              TA-GAT Studio
+              <span class="badge bg-indigo-subtle border text-indigo font-mono" style="font-size: 0.65rem; padding: 3px 7px;">GNN v2.4</span>
+            </div>
+            <small class="text-muted d-none d-sm-inline" style="font-size: 0.78rem;">
+              Topology-Aware Graph Attention Network • Stanford Twitter Ego Analytics
+            </small>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 gap-md-3">
+          <!-- Server Telemetry Badge -->
+          <div class="model-chip d-none d-md-flex" id="serverStatusBadge">
+            <span class="pulse-dot"></span>
+            <span>Checking backend...</span>
+          </div>
+
+          <!-- Baselines & Benchmark Modal Trigger -->
+          <button class="btn btn-outline-glow btn-sm" data-bs-toggle="modal" data-bs-target="#benchmarkModal">
+            <i class="fas fa-chart-line me-1 text-info"></i> <span class="d-none d-sm-inline">Baselines & Benchmarks</span>
+          </button>
+
+          <!-- Theme Switcher Toggle (Dark / Light) -->
+          <button class="btn btn-icon" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+            <i class="fas fa-sun text-warning"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="container-fluid px-lg-5 mt-4">
+    
+    <!-- Hero / Top Banner -->
+    <div class="hero-card glass-card p-4 mb-4">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge px-2 py-1 font-mono" style="background: var(--accent-indigo-subtle); color: var(--accent-indigo); font-size: 0.72rem; font-weight: 700;">
+              <i class="fas fa-microchip me-1"></i> GRAPH MACHINE LEARNING PIPELINE
+            </span>
+            <span class="text-muted small">Independent Cascade Diffusion Target</span>
+          </div>
+          <h2 class="fw-bold mb-2">Influential Node & Information Diffusion Studio</h2>
+          <p class="text-muted mb-0" style="max-width: 760px; font-size: 0.92rem; line-height: 1.5;">
+            Detect high-impact opinion leaders, structural bridge connectors, and viral spreaders using a directed Graph Attention Network trained on Stanford's Ego-Twitter benchmark. Compare learned attention representations directly with PageRank and Centrality baselines.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0 d-flex flex-wrap justify-content-lg-end gap-2">
+          <button class="btn btn-glow" id="quickRunBtn">
+            <i class="fas fa-bolt me-1"></i> Analyze Ego Network
+          </button>
+          <button class="btn btn-outline-glow" id="heroUploadBtn" onclick="document.getElementById('tab-upload-btn').click(); document.getElementById('inputTabsContent').scrollIntoView({behavior: 'smooth'});">
+            <i class="fas fa-upload me-1 text-primary"></i> Upload Dataset
+          </button>
+          <button class="btn btn-outline-glow" id="openDiffusionBtn">
+            <i class="fas fa-fire-alt me-1 text-warning"></i> Simulate Cascade
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Input & Preset Section -->
+    <div class="glass-card p-4 mb-4">
+      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">
+          <i class="fas fa-database me-2 text-primary"></i> Dataset Input & Network Feeds
+        </h5>
+        <span class="text-muted small">Select a pre-configured sample or upload your own edge list / node feature dataset</span>
+      </div>
+
+      <!-- Input Tabs Navigation -->
+      <ul class="nav nav-tabs nav-tabs-custom mb-3" id="inputTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tab-presets-btn" data-bs-toggle="tab" data-bs-target="#tab-presets" type="button" role="tab">
+            <i class="fas fa-folder-open me-2"></i> Pre-Configured Samples
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-upload-btn" data-bs-toggle="tab" data-bs-target="#tab-upload" type="button" role="tab">
+            <i class="fas fa-cloud-upload-alt me-2"></i> Upload File (.csv, .edges, .tsv)
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-path-btn" data-bs-toggle="tab" data-bs-target="#tab-path" type="button" role="tab">
+            <i class="fas fa-terminal me-2"></i> Custom Workspace Path
+          </button>
+        </li>
+      </ul>
+
+      <!-- Input Tabs Content -->
+      <div class="tab-content" id="inputTabsContent">
+        <!-- Presets Tab -->
+        <div class="tab-pane fade show active" id="tab-presets" role="tabpanel">
+          <div class="row g-3" id="presetsContainer">
+            <div class="col-12 text-center py-4 text-muted">
+              <div class="spinner-border spinner-border-sm me-2 text-primary" role="status"></div> Loading sample catalog...
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Tab -->
+        <div class="tab-pane fade" id="tab-upload" role="tabpanel">
+          <div class="row g-3 align-items-stretch">
+            <div class="col-md-8">
+              <div class="dropzone-box h-100 d-flex flex-column justify-content-center" id="dropZone">
+                <input type="file" id="fileInput" accept=".csv,.txt,.edges,.tsv" class="d-none">
+                <div class="mb-2">
+                  <i class="fas fa-cloud-upload-alt fa-3x text-primary opacity-75"></i>
+                </div>
+                <h6 class="fw-bold mb-1">Drag & drop your network dataset here</h6>
+                <p class="text-muted small mb-2">Supports edge lists (source, target), tabular node features, or 1,180-dim feature matrices.</p>
+                <button type="button" class="btn btn-outline-glow btn-sm mx-auto" onclick="document.getElementById('fileInput').click()">
+                  <i class="fas fa-folder-open me-1"></i> Browse Files
+                </button>
+                <div id="uploadFeedback" class="mt-3 text-success fw-semibold small" style="display:none;"></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded-3 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color);">
+                <h6 class="fw-bold mb-2 small text-uppercase" style="letter-spacing: 0.05em; color: var(--accent-indigo);">
+                  <i class="fas fa-info-circle me-1"></i> Supported Schema Formats
+                </h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                  <li class="mb-2"><strong class="text-heading">1. Directed Edge List:</strong> Two columns representing <code>source_node_id</code> and <code>target_node_id</code>.</li>
+                  <li class="mb-2"><strong class="text-heading">2. Node Centrality CSV:</strong> Columns containing <code>degree</code>, <code>pagerank</code>, <code>betweenness</code>.</li>
+                  <li><strong class="text-heading">3. Neural Feature Matrix:</strong> 1180 columns (<code>node_feat_0</code> ... <code>node_feat_1179</code>).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Path Tab -->
+        <div class="tab-pane fade" id="tab-path" role="tabpanel">
+          <form id="pathForm" class="row g-2 align-items-center">
+            <div class="col-md-9">
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 text-muted font-mono"><i class="fas fa-folder"></i></span>
+                <input type="text" class="form-control font-mono ps-2" id="customPathInput" 
+                  value="Dataset/Ego_Twitter Stanford University/twitter/twitter" 
+                  placeholder="e.g. input samples/twitter_ego_100318079_network.csv">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-glow w-100">
+                <i class="fas fa-bolt me-1"></i> Load & Predict
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing Loader Indicator -->
+    <div id="loadingIndicator" class="glass-card p-5 mb-4 text-center" style="display: none;">
+      <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h4 class="fw-bold mb-1" id="loadingHeadline">Executing TA-GAT Graph Inference...</h4>
+      <p class="text-muted mb-0 small" id="loadingSubline">Extracting directed topology, normalizing 1,180-dim feature matrix & computing attention layers...</p>
+    </div>
+
+    <!-- Results Dashboard -->
+    <div id="resultsDashboard" style="display: none;">
+      
+      <!-- Top KPI Metric Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="kpi-card kpi-indigo">
+            <div class="kpi-label">
+              <span>Network Size</span>
+              <i class="fas fa-network-wired text-primary"></i>
+            </div>
+            <div class="kpi-value" id="kpiNodes">0</div>
+            <div class="kpi-subtext" id="kpiEdges">0 Directed Edges</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="kpi-card kpi-amber">
+            <div class="kpi-label">
+              <span>Super Spreader Score</span>
+              <i class="fas fa-crown text-warning"></i>
+            </div>
+            <div class="kpi-value" style="color: var(--accent-amber);" id="kpiTopScore">0.0000</div>
+            <div class="kpi-subtext font-mono" id="kpiTopId">Node ID: ---</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="kpi-card kpi-cyan">
+            <div class="kpi-label">
+              <span>Mean Graph Influence</span>
+              <i class="fas fa-wave-square text-info"></i>
+            </div>
+            <div class="kpi-value" style="color: var(--accent-cyan);" id="kpiAvgScore">0.0000</div>
+            <div class="kpi-subtext" id="kpiScoreRange">Min: 0.00 | Max: 0.00</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="kpi-card kpi-emerald">
+            <div class="kpi-label">
+              <span>GNN Architecture</span>
+              <i class="fas fa-brain text-success"></i>
+            </div>
+            <div class="kpi-value" style="font-size: 1.6rem; margin-top: 14px; color: var(--accent-emerald);">TA-GAT</div>
+            <div class="kpi-subtext">4-Head Multi-Attention • 327k Weights</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graph Visualization & Top Influencers Chart -->
+      <div class="row g-3 mb-4">
+        <!-- Interactive Graph Network Canvas -->
+        <div class="col-lg-7">
+          <div class="glass-card p-3 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div>
+                <h5 class="fw-bold mb-0"><i class="fas fa-project-diagram me-2 text-primary"></i> Interactive Topology Canvas</h5>
+                <small class="text-muted">Directed ego network with learned attention weight clustering</small>
+              </div>
+            </div>
+
+            <div class="network-container-wrapper flex-grow-1">
+              <!-- Floating HUD Toolbar -->
+              <div class="network-hud-toolbar">
+                <div class="hud-glass-group">
+                  <i class="fas fa-search text-muted ms-2"></i>
+                  <input type="text" class="hud-search-input" id="networkSearchInput" placeholder="Search & focus Node ID...">
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                  <div class="hud-glass-group">
+                    <select class="form-select form-select-sm bg-transparent border-0 text-heading py-0" id="hudTierFilter" style="font-size: 0.8rem; outline: none;">
+                      <option value="ALL">All Visible Nodes</option>
+                      <option value="TOP3">Top 3 Super Spreaders</option>
+                      <option value="TOP10">Top 10 Key Influencers</option>
+                      <option value="TOP25">Top 25 Bridge Connectors</option>
+                    </select>
+                  </div>
+
+                  <div class="hud-glass-group">
+                    <button class="btn btn-sm btn-icon border-0" id="hudFreezeBtn" title="Freeze / Unfreeze Physics">
+                      <i class="fas fa-snowflake"></i>
+                    </button>
+                    <button class="btn btn-sm btn-icon border-0" id="hudFitBtn" title="Fit Network to View">
+                      <i class="fas fa-crosshairs"></i>
+                    </button>
+                    <button class="btn btn-sm btn-icon border-0" id="hudFullscreenBtn" title="Toggle Fullscreen Canvas">
+                      <i class="fas fa-expand"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Canvas element -->
+              <div id="networkCanvas"></div>
+
+              <!-- Legend Bar -->
+              <div class="network-legend-bar">
+                <div class="legend-chip" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+                  <span class="legend-dot" style="background: #f59e0b;"></span> Super Spreader (Top 3)
+                </div>
+                <div class="legend-chip" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">
+                  <span class="legend-dot" style="background: #6366f1;"></span> Key Influencer (Top 10)
+                </div>
+                <div class="legend-chip" style="background: rgba(6, 182, 212, 0.2); color: #22d3ee;">
+                  <span class="legend-dot" style="background: #06b6d4;"></span> Bridge Connector
+                </div>
+                <div class="legend-chip" style="background: rgba(148, 163, 184, 0.2); color: #94a3b8;">
+                  <span class="legend-dot" style="background: #64748b;"></span> Community
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Top 10 Influencers & Benchmarks Card -->
+        <div class="col-lg-5">
+          <div class="glass-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h5 class="fw-bold mb-0"><i class="fas fa-chart-bar me-2 text-warning"></i> Top 10 Influential Nodes</h5>
+              <span class="badge font-mono" style="background: var(--accent-indigo-subtle); color: var(--accent-indigo);">Attention Ranking</span>
+            </div>
+            
+            <div class="flex-grow-1" style="min-height: 280px; position: relative;">
+              <canvas id="rankingChart"></canvas>
+            </div>
+
+            <div class="mt-3 p-3 rounded-3" style="background: var(--bg-surface); border: 1px solid var(--border-color);">
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <span class="small fw-semibold text-heading"><i class="fas fa-trophy text-warning me-1"></i> Model Spearman &rho;</span>
+                <span class="small font-mono fw-bold text-success">0.2989 (&uarr; 35% vs PageRank 0.22)</span>
+              </div>
+              <div class="progress" style="height: 6px; background: var(--border-color);">
+                <div class="progress-bar bg-success" style="width: 78%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Information Diffusion Cascade Simulation Deck -->
+      <div class="glass-card p-4 mb-4" id="diffusionSection">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <div>
+            <h5 class="fw-bold mb-0"><i class="fas fa-fire-alt me-2 text-warning"></i> Information Diffusion Cascade Simulator</h5>
+            <small class="text-muted">Simulate Independent Cascade (IC) epidemic propagation from selected influential seed nodes</small>
+          </div>
+          <button class="btn btn-glow" id="runSimulationBtn">
+            <i class="fas fa-play me-1"></i> Run Outbreak Simulation
+          </button>
+        </div>
+
+        <!-- Simulation Parameters Row -->
+        <div class="row g-3 align-items-center mb-3">
+          <div class="col-md-4">
+            <label class="form-label small text-muted mb-1 fw-semibold">
+              Propagation Probability (p): <span id="probVal" class="fw-bold" style="color: var(--accent-indigo);">0.15</span>
+            </label>
+            <input type="range" class="form-range" id="probRange" min="0.02" max="0.45" step="0.01" value="0.15">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small text-muted mb-1 fw-semibold">
+              Max Wave Depth: <span id="stepsVal" class="fw-bold" style="color: var(--accent-indigo);">8</span>
+            </label>
+            <input type="range" class="form-range" id="stepsRange" min="3" max="15" step="1" value="8">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small text-muted mb-1 fw-semibold">Initial Seed Strategy</label>
+            <select class="form-select form-select-sm" id="seedStrategySelect">
+              <option value="top3" selected>Top 3 TA-GAT Super Spreaders</option>
+              <option value="top5">Top 5 Graph Influencers</option>
+              <option value="single_top">Single Highest Ranked Node (#1)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Simulation Results & Step-by-step Player -->
+        <div id="diffusionResultsDeck" style="display: none;">
+          <div class="diffusion-player-deck mt-3">
+            <!-- Metrics Row -->
+            <div class="row g-3 mb-3 text-center">
+              <div class="col-4">
+                <small class="text-muted d-block text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Reach</small>
+                <div class="h3 fw-bold mb-0" style="color: var(--accent-indigo);" id="diffReachedNodes">0</div>
+                <small class="text-dim" id="diffReachPct">0%</small>
+              </div>
+              <div class="col-4">
+                <small class="text-muted d-block text-uppercase fw-semibold" style="font-size: 0.72rem;">Cascade Depth</small>
+                <div class="h3 fw-bold mb-0 text-heading" id="diffSteps">0</div>
+                <small class="text-dim">Waves</small>
+              </div>
+              <div class="col-4">
+                <small class="text-muted d-block text-uppercase fw-semibold" style="font-size: 0.72rem;">Propagation Velocity</small>
+                <div class="h3 fw-bold mb-0" style="color: var(--accent-amber);" id="diffVelocity">0.0</div>
+                <small class="text-dim">Nodes/Wave</small>
+              </div>
+            </div>
+
+            <!-- Playback Controls Bar -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 border-top pt-3" style="border-color: var(--border-color) !important;">
+              <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-glow btn-sm" id="cascadePlayBtn">
+                  <i class="fas fa-play"></i> Play Outbreak
+                </button>
+                <button class="btn btn-icon btn-sm" id="cascadeStepBackBtn" title="Step Backward">
+                  <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="btn btn-icon btn-sm" id="cascadeStepForwardBtn" title="Step Forward">
+                  <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="btn btn-icon btn-sm" id="cascadeResetBtn" title="Reset Timeline">
+                  <i class="fas fa-undo"></i>
+                </button>
+                <span class="step-counter-badge ms-2" id="cascadeStepCounter">Step 0 / 0</span>
+              </div>
+
+              <div class="d-flex align-items-center gap-2">
+                <small class="text-muted">Speed:</small>
+                <select class="form-select form-select-sm" id="cascadeSpeedSelect" style="width: 110px;">
+                  <option value="1200">0.5x Slow</option>
+                  <option value="800" selected>1.0x Normal</option>
+                  <option value="400">2.0x Fast</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Wave Badges -->
+            <div class="mt-3 d-flex flex-wrap" id="diffusionWaveContainer"></div>
+
+            <!-- S-Curve Chart -->
+            <div class="mt-3" style="height: 180px; position: relative;">
+              <canvas id="diffusionCurveChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rankings Table Section -->
+      <div class="glass-card p-4 mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-3">
+          <div>
+            <h5 class="fw-bold mb-0"><i class="fas fa-list-ol me-2 text-primary"></i> Complete Influential Node Leaderboard</h5>
+            <small class="text-muted">Click any row to inspect deep node metrics and focus within network topology</small>
+          </div>
+
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <div class="input-group input-group-sm" style="width: 220px;">
+              <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-filter"></i></span>
+              <input type="text" class="form-control border-start-0 font-mono" id="searchNodeInput" placeholder="Filter Node ID...">
+            </div>
+
+            <select class="form-select form-select-sm" id="tablePageSizeSelect" style="width: 100px;">
+              <option value="10">10 / page</option>
+              <option value="15" selected>15 / page</option>
+              <option value="25">25 / page</option>
+              <option value="50">50 / page</option>
+              <option value="100">100 / page</option>
+            </select>
+
+            <button class="btn btn-outline-glow btn-sm" id="exportRankingsBtn">
+              <i class="fas fa-file-csv me-1"></i> Export CSV
+            </button>
+            <button class="btn btn-outline-glow btn-sm" id="exportJsonBtn">
+              <i class="fas fa-code me-1"></i> JSON
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-responsive rounded-3 border" style="border-color: var(--border-color) !important;">
+          <table class="table table-enterprise" id="rankingsTable">
+            <thead>
+              <tr>
+                <th data-sort="rank" class="sort-active" style="width: 70px;">
+                  Rank <i class="fas fa-sort-up ms-1 sort-icon"></i>
+                </th>
+                <th data-sort="node_id">
+                  Node ID <i class="fas fa-sort ms-1 opacity-25 sort-icon"></i>
+                </th>
+                <th data-sort="pred" style="width: 190px;">
+                  TA-GAT Score <i class="fas fa-sort ms-1 opacity-25 sort-icon"></i>
+                </th>
+                <th data-sort="degree">
+                  Degree <i class="fas fa-sort ms-1 opacity-25 sort-icon"></i>
+                </th>
+                <th>In / Out</th>
+                <th data-sort="pagerank">
+                  PageRank <i class="fas fa-sort ms-1 opacity-25 sort-icon"></i>
+                </th>
+                <th data-sort="betweenness">
+                  Betweenness <i class="fas fa-sort ms-1 opacity-25 sort-icon"></i>
+                </th>
+                <th data-sort="core_number">
+                  Core No. <i class="fas fa-sort ms-1 opacity-25 sort-icon"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="rankingsTableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination & Counter Footer -->
+        <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
+          <small class="text-muted" id="tableCounter">Showing 0 nodes</small>
+          <ul class="pagination pagination-custom pagination-sm mb-0" id="tablePagination"></ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Node Inspection Telemetry Modal with Radar Chart -->
+  <div class="modal fade" id="nodeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card border p-3">
+        <div class="modal-header border-0 pb-0">
+          <div>
+            <h5 class="modal-title fw-bold" id="modalNodeId">Node Telemetry</h5>
+            <span class="badge font-mono" style="background: var(--accent-indigo-subtle); color: var(--accent-indigo);" id="modalTier">Rank #1</span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6 text-center d-flex flex-column justify-content-center">
+              <span class="text-muted small">Predicted Influence Score</span>
+              <div class="display-5 fw-bold mb-3" style="color: var(--accent-indigo); font-family: 'Outfit';" id="modalScore">0.0000</div>
+
+              <div class="p-3 rounded-3" style="background: var(--bg-surface); border: 1px solid var(--border-color);">
+                <div class="row g-2 text-center">
+                  <div class="col-4">
+                    <small class="text-muted d-block font-mono" style="font-size: 0.72rem;">DEGREE</small>
+                    <strong class="text-heading" id="modalDegree">-</strong>
+                  </div>
+                  <div class="col-4">
+                    <small class="text-muted d-block font-mono" style="font-size: 0.72rem;">IN-DEGREE</small>
+                    <strong class="text-heading" id="modalInDegree">-</strong>
+                  </div>
+                  <div class="col-4">
+                    <small class="text-muted d-block font-mono" style="font-size: 0.72rem;">OUT-DEGREE</small>
+                    <strong class="text-heading" id="modalOutDegree">-</strong>
+                  </div>
+                  <div class="col-4 mt-2">
+                    <small class="text-muted d-block font-mono" style="font-size: 0.72rem;">PAGERANK</small>
+                    <strong class="text-heading font-mono small" id="modalPageRank">-</strong>
+                  </div>
+                  <div class="col-4 mt-2">
+                    <small class="text-muted d-block font-mono" style="font-size: 0.72rem;">BETWEENNESS</small>
+                    <strong class="text-heading font-mono small" id="modalBetweenness">-</strong>
+                  </div>
+                  <div class="col-4 mt-2">
+                    <small class="text-muted d-block font-mono" style="font-size: 0.72rem;">CORE NO.</small>
+                    <strong class="text-heading" id="modalCore">-</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Radar Chart Column -->
+            <div class="col-md-6">
+              <div class="p-2 rounded-3 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color); min-height: 240px; position: relative;">
+                <canvas id="radarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-glow btn-sm w-100" data-bs-dismiss="modal">Close Telemetry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Baselines & Benchmark Modal -->
+  <div class="modal fade" id="benchmarkModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content glass-card border p-3">
+        <div class="modal-header border-0">
+          <div>
+            <h5 class="modal-title fw-bold">Model Architecture & Baseline Benchmarks</h5>
+            <small class="text-muted">Comparative evaluation on Stanford Twitter Ego Network</small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color);">
+                <h6 class="fw-bold mb-2" style="color: var(--accent-indigo);"><i class="fas fa-layer-group me-1"></i> TA-GAT Architecture</h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                  <li class="mb-1"><strong class="text-heading">Layer 1:</strong> GATConv(in=1180, hidden=64, heads=4)</li>
+                  <li class="mb-1"><strong class="text-heading">Layer 2:</strong> GATConv(in=256, hidden=64, heads=1)</li>
+                  <li class="mb-1"><strong class="text-heading">Dense 1:</strong> Linear(64 -> 32) + ReLU + Dropout(0.3)</li>
+                  <li class="mb-1"><strong class="text-heading">Output:</strong> Linear(32 -> 1) scalar prediction</li>
+                  <li><strong class="text-heading">Total Parameters:</strong> 327,105 weights</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-color);">
+                <h6 class="fw-bold mb-2" style="color: var(--accent-amber);"><i class="fas fa-award me-1"></i> Evaluation Metrics</h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                  <li class="mb-1"><strong class="text-heading">Spearman Rank Correlation:</strong> <span class="fw-bold text-success">0.2989</span> (Superior to PageRank 0.22)</li>
+                  <li class="mb-1"><strong class="text-heading">Kendall Tau Rank Metric:</strong> 0.2003</li>
+                  <li class="mb-1"><strong class="text-heading">Mean Absolute Error (MAE):</strong> 58.31 (vs Baseline 64.2)</li>
+                  <li class="mb-1"><strong class="text-heading">Root Mean Square Error:</strong> 63.96</li>
+                  <li><strong class="text-heading">Diffusion Ground Truth:</strong> Monte Carlo Independent Cascade</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h6 class="fw-bold mb-2">Algorithm Comparison Table:</h6>
+          <div class="table-responsive rounded-3 border" style="border-color: var(--border-color) !important;">
+            <table class="table table-enterprise">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Spearman &rho;</th>
+                  <th>MAE</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold" style="color: var(--accent-indigo);"><i class="fas fa-check-circle text-success me-1"></i> TA-GAT (Proposed)</td>
+                  <td class="fw-bold text-success font-mono">0.2989</td>
+                  <td class="font-mono">58.31</td>
+                  <td>Multi-head graph attention over structure & semantics</td>
+                </tr>
+                <tr>
+                  <td>PageRank Baseline</td>
+                  <td class="font-mono">0.2200</td>
+                  <td class="font-mono">61.50</td>
+                  <td>Random walk stationary vector distribution</td>
+                </tr>
+                <tr>
+                  <td>Closeness Centrality</td>
+                  <td class="font-mono">0.1900</td>
+                  <td class="font-mono">63.40</td>
+                  <td>Reciprocal average shortest path distance</td>
+                </tr>
+                <tr>
+                  <td>Degree Centrality</td>
+                  <td class="font-mono">0.1800</td>
+                  <td class="font-mono">64.20</td>
+                  <td>Direct incident follower/following connection count</td>
+                </tr>
+                <tr>
+                  <td>Betweenness Centrality</td>
+                  <td class="font-mono">0.1600</td>
+                  <td class="font-mono">66.80</td>
+                  <td>Shortest path topological bridging fraction</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Floating Toast Notifications Container -->
+  <div id="toastContainer"></div>
+
+  <!-- Modular Frontend JavaScript Application Logic -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+project:
+  name: ta_gat_influential_nodes
+  seed: 42
+  device: auto
+  fast_mode: true
+  full_experiment: false
+  regenerate_targets: false
+
+paths:
+  root: .
+  dataset_dir: Dataset/Ego_Twitter Stanford University
+  dataset_subdir: Dataset/Ego_Twitter Stanford University/twitter/twitter
+  outputs_dir: outputs
+
+model:
+  hidden_dim: 64
+  heads: 4
+  dropout: 0.3
+  lr: 0.005
+  weight_decay: 5e-4
+  epochs: 20
+  patience: 8
+  batch_size: 1
+  split_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+
+features:
+  use_topological_features: true
+  use_node_features: true
+  normalize: true
+
+influence:
+  propagation_probability: 0.1
+  monte_carlo_sims: 5
+  max_steps: 50
+  sample_nodes: 200
+  use_full_evaluation: false
+  cache_targets: true

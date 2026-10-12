@@ -1,0 +1,51 @@
+node_id,user_handle,community,tier,role,degree,in_degree,out_degree,pagerank,betweenness,closeness,clustering,core_number,eigenvector
+90001000,user_1000,Venture Capital,Tier-1 Key Opinion Leader,Macro Influencer,270,222,48,0.357,0.18053,0.844,0.6619,12,0.18588
+90001001,user_1001,AI Researchers,Tier-1 Key Opinion Leader,Macro Influencer,224,194,30,0.306,0.40584,0.788,0.5904,15,0.2997
+90001002,user_1002,Tech Influencers,Tier-1 Key Opinion Leader,Macro Influencer,164,121,43,0.203,0.39471,0.642,0.4349,23,0.37821
+90001003,user_1003,Growth Hackers,Tier-1 Key Opinion Leader,Macro Influencer,218,177,41,0.286,0.12233,0.754,0.3592,18,0.29073
+90001004,user_1004,Creative Directors,Tier-1 Key Opinion Leader,Macro Influencer,156,134,22,0.212,0.40378,0.668,0.6221,16,0.16496
+90001005,user_1005,Creative Directors,Tier-1 Key Opinion Leader,Macro Influencer,241,208,33,0.3285,0.38677,0.816,0.4718,12,0.20311
+90001006,user_1006,Creative Directors,Tier-1 Key Opinion Leader,Macro Influencer,256,230,26,0.358,0.3213,0.86,0.6833,10,0.35914
+90001007,user_1007,Product Designers,Tier-1 Key Opinion Leader,Macro Influencer,228,169,59,0.283,0.36927,0.738,0.5201,13,0.27574
+90001008,user_1008,Product Designers,Community Bridge,Community Moderator,140,73,67,0.143,0.37579,0.546,0.7258,7,0.11193
+90001009,user_1009,AI Researchers,Community Bridge,Community Moderator,176,67,109,0.155,0.13493,0.534,0.4801,6,0.03985
+90001010,user_1010,AI Researchers,Community Bridge,Community Moderator,143,68,75,0.1395,0.43853,0.536,0.5928,6,0.0255
+90001011,user_1011,Venture Capital,Community Bridge,Community Moderator,119,45,74,0.1045,0.44567,0.49,0.6589,5,0.04228
+90001012,user_1012,Growth Hackers,Community Bridge,Community Moderator,118,61,57,0.12,0.36057,0.522,0.6585,6,0.11189
+90001013,user_1013,Product Designers,Community Bridge,Community Moderator,162,85,77,0.166,0.40482,0.57,0.5993,3,0.0205
+90001014,user_1014,Venture Capital,Community Bridge,Community Moderator,154,68,86,0.145,0.36077,0.536,0.605,4,0.07174
+90001015,user_1015,Product Designers,Community Bridge,Community Moderator,177,81,96,0.1695,0.35537,0.562,0.6543,3,0.03596
+90001016,user_1016,Tech Influencers,Micro Influencer,Active Contributor,59,36,23,0.0655,0.05975,0.472,0.3944,5,0.02187
+90001017,user_1017,AI Researchers,Micro Influencer,Active Contributor,59,41,18,0.0705,0.07353,0.482,0.4497,6,0.06938
+90001018,user_1018,AI Researchers,Micro Influencer,Active Contributor,68,22,46,0.056,0.05192,0.444,0.6279,5,0.11227
+90001019,user_1019,Growth Hackers,Micro Influencer,Active Contributor,57,15,42,0.0435,0.06626,0.43,0.4246,7,0.10716
+90001020,user_1020,Tech Influencers,Micro Influencer,Active Contributor,76,37,39,0.075,0.03226,0.474,0.394,2,0.08125
+90001021,user_1021,Tech Influencers,Micro Influencer,Active Contributor,39,22,17,0.0415,0.01049,0.444,0.5543,2,0.06333
+90001022,user_1022,Product Designers,Micro Influencer,Active Contributor,62,33,29,0.064,0.02178,0.466,0.4375,2,0.05442
+90001023,user_1023,Growth Hackers,Micro Influencer,Active Contributor,37,21,16,0.0395,0.05986,0.442,0.4092,2,0.03935
+90001024,user_1024,Product Designers,Micro Influencer,Active Contributor,53,11,42,0.0375,0.0136,0.422,0.4615,2,0.07978
+90001025,user_1025,Venture Capital,Micro Influencer,Active Contributor,51,11,40,0.0365,0.079,0.422,0.4468,5,0.01889
+90001026,user_1026,Tech Influencers,Micro Influencer,Active Contributor,64,26,38,0.058,0.04292,0.452,0.7434,7,0.06894
+90001027,user_1027,Venture Capital,Micro Influencer,Active Contributor,38,18,20,0.037,0.05871,0.436,0.6933,5,0.08453
+90001028,user_1028,Tech Influencers,Micro Influencer,Active Contributor,52,35,17,0.061,0.06667,0.47,0.4895,8,0.02918
+90001029,user_1029,Product Designers,Micro Influencer,Active Contributor,42,27,15,0.048,0.0573,0.454,0.6441,3,0.11172
+90001030,user_1030,Tech Influencers,Micro Influencer,Active Contributor,65,44,21,0.0765,0.0562,0.488,0.6769,2,0.06683
+90001031,user_1031,Tech Influencers,Micro Influencer,Active Contributor,26,11,15,0.024,0.01652,0.422,0.7089,6,0.10709
+90001032,user_1032,Creative Directors,Micro Influencer,Active Contributor,77,44,33,0.0825,0.06082,0.488,0.7088,7,0.09579
+90001033,user_1033,Product Designers,Micro Influencer,Active Contributor,42,20,22,0.041,0.06497,0.44,0.6176,7,0.01101
+90001034,user_1034,Product Designers,Micro Influencer,Active Contributor,83,34,49,0.0755,0.07816,0.468,0.4636,7,0.07036
+90001035,user_1035,AI Researchers,Micro Influencer,Active Contributor,74,44,30,0.081,0.07961,0.488,0.4204,5,0.0361
+90001036,user_1036,Venture Capital,Micro Influencer,Active Contributor,51,29,22,0.0545,0.06945,0.458,0.613,2,0.06968
+90001037,user_1037,Venture Capital,Micro Influencer,Active Contributor,67,31,36,0.0645,0.02708,0.462,0.7392,6,0.06354
+90001038,user_1038,AI Researchers,Micro Influencer,Active Contributor,84,36,48,0.078,0.03451,0.472,0.608,8,0.06418
+90001039,user_1039,Product Designers,Micro Influencer,Active Contributor,46,28,18,0.051,0.0117,0.456,0.6082,2,0.1194
+90001040,user_1040,AI Researchers,Micro Influencer,Active Contributor,58,38,20,0.067,0.03591,0.476,0.3562,6,0.0571
+90001041,user_1041,Tech Influencers,Micro Influencer,Active Contributor,89,40,49,0.0845,0.07862,0.48,0.3801,6,0.05236
+90001042,user_1042,Product Designers,Micro Influencer,Active Contributor,44,12,32,0.034,0.04898,0.424,0.7245,3,0.1123
+90001043,user_1043,Growth Hackers,Micro Influencer,Active Contributor,79,33,46,0.0725,0.05698,0.466,0.4935,8,0.06702
+90001044,user_1044,AI Researchers,Micro Influencer,Active Contributor,66,35,31,0.068,0.06941,0.47,0.4046,7,0.04954
+90001045,user_1045,Tech Influencers,Micro Influencer,Active Contributor,84,35,49,0.077,0.02793,0.47,0.5946,5,0.06625
+90001046,user_1046,Creative Directors,Micro Influencer,Active Contributor,44,29,15,0.051,0.01497,0.458,0.5087,7,0.1079
+90001047,user_1047,Product Designers,Micro Influencer,Active Contributor,59,43,16,0.0725,0.04069,0.486,0.6188,4,0.06122
+90001048,user_1048,Creative Directors,Micro Influencer,Active Contributor,67,31,36,0.0645,0.02752,0.462,0.3655,8,0.04962
+90001049,user_1049,Product Designers,Micro Influencer,Active Contributor,64,42,22,0.074,0.0639,0.484,0.4363,6,0.0603
